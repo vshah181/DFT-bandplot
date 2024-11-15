@@ -12,3 +12,9 @@ The input file should be called INPUT.qebp and an example is provided here:
     colour   tab:purple
     filband  CoSi_band.dat.gnu
     ppfile   pp.band.CoSi.out
+
+# Dependency list
+- Python $\qeg$ 3.7.2
+- Numpy
+- Matplotlib
+- Arial font
