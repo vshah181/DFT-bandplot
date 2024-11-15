@@ -14,7 +14,7 @@ The input file should be called INPUT.qebp and an example is provided here:
     ppfile   pp.band.CoSi.out
 
 # Dependency list
-- Python $\qeg$ 3.7.2
+- Python $\geq$ 3.7.2
 - Numpy
 - Matplotlib
 - Arial font
