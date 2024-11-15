@@ -9,7 +9,7 @@ The input file should be called INPUT.qebp and an example is provided here:
     figsize  6.0 4.0
     klabels  Γ X M Γ R X
     yrange   11 23
-    colour   tab:purple
+    colour   tab:purple  // Or define a colour (eg #6463fa)
     filband  CoSi_band.dat.gnu
     ppfile   pp.band.CoSi.out
 
