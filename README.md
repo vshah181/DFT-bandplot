@@ -13,7 +13,7 @@ The input file should be called INPUT.qebp and an example is provided here:
     filband  CoSi_band.dat.gnu
     ppfile   pp.band.CoSi.out
 
-# Dependency list
+## Dependency list
 - Python $\geq$ 3.7.2
 - Numpy
 - Matplotlib
