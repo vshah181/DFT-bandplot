@@ -12,7 +12,7 @@ Here is a sample input file:
     fermi_level  17.3456
     figsize      6.0 4.0
     klabels      Γ X M Γ R X
-    yrange       11 23
+    yrange       -5 2 !Plot from 5 eV below Fermi energy to 2 eV above Fermi energy
     colour       tab:purple  !Or define a colour (eg #6463fa)
     filband      CoSi_band.dat.gnu
     ppfile       pp.band.CoSi.out
@@ -26,7 +26,7 @@ Again we assume that a self-consistent and band-structure calculation have been 
     fermi_level  17.3456
     figsize      6.0 4.0
     klabels      Γ X M Γ R X
-    yrange       11 23
+    yrange       -0.5 1.2 !Plot from 0.5 eV below Fermi energy to 1.2 eV above Fermi energy
     colour       tab:purple  !Or define a colour (eg #6463fa)
 The filename does not matter. I have called it ```INPUT.vasp``` just as an example. The porgramme is invoked by typing:
 ```python vasp_bandplot.py < INPUT.vasp```.

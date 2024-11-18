@@ -55,14 +55,14 @@ def plot_bands(tic_locs, klabels, e_fermi, klist, bands, size, colour,\
     fig = plt.figure(figsize=size)
     ax = fig.add_subplot(1, 1, 1)
     for iband in range(len(bands)):
-        ax.plot(klist, bands[iband, :], color=colour, linewidth=1.0)
+        ax.plot(klist, bands[iband, :]-e_fermi, color=colour, linewidth=1.0)
     ax.set_xlim([np.min(klist), np.max(klist)])
     ax.set_ylim(ene_range)
-    ax.set_ylabel(r'$E$ (eV)')
+    ax.set_ylabel(r'$E - E_F$ (eV)')
     ax.set_xticks(tic_locs, klabels)
     ax.vlines(tic_locs, color='#000000', ymin=np.min(ene_range),
             ymax=np.max(ene_range), linewidth=0.5)
-    ax.hlines(e_fermi, color='#000000', xmin=np.min(klist), xmax=np.max(klist),
+    ax.hlines(0.00, color='#000000', xmin=np.min(klist), xmax=np.max(klist),
             linewidth=0.5, linestyle='dashed')
     plt.tight_layout()
     plt.savefig(figure_name)

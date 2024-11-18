@@ -72,16 +72,16 @@ def plot_graph(kdists, bands, xtics, colour, yrange, efermi, fig_dims):
     fig = plt.figure(figsize=fig_dims)
     ax = fig.add_subplot(1, 1, 1)
     ax.tick_params(direction='in')
-    ax.set_ylabel(r'$E$ (eV)')
+    ax.set_ylabel(r'$E - E_F$ (eV)')
     ax.set_xticks(tic_locs, tic_labels)
     ax.set_xlim(np.min(kdists), np.max(kdists))
     ax.set_ylim(np.min(yrange), np.max(yrange))
     ax.vlines(tic_locs, color='#000000', ymin=np.min(yrange),
             ymax=np.max(yrange), linewidth=0.5)
-    ax.hlines(efermi, linestyle='dashed', color='#000000', xmin=np.min(kdists),
+    ax.hlines(0.0, linestyle='dashed', color='#000000', xmin=np.min(kdists),
             xmax=np.max(kdists), linewidth=0.5)
     for band in bands:
-        ax.plot(kdists, band, color=colour, linewidth=1.0)
+        ax.plot(kdists, band-efermi, color=colour, linewidth=1.0)
     plt.tight_layout()
     plt.savefig('EIGENVAL.pdf')
 
