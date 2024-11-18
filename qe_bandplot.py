@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -9,8 +10,7 @@ plt.rcParams["mathtext.bf"] = "Arial:bold"
 plt.rcParams['svg.fonttype'] = 'none'
 
 def read_input():
-    with open('INPUT.qebp', 'r', encoding='utf-8') as f:
-        for line in f:
+        for line in sys.stdin:
             split_line = line.split()
             if split_line[0] == 'e_fermi':
                 fermi_level = float(split_line[1])
