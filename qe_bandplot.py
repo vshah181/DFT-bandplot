@@ -58,6 +58,7 @@ def plot_bands(tic_locs, klabels, e_fermi, klist, bands, size, colour,\
         ax.plot(klist, bands[iband, :], color=colour, linewidth=1.0)
     ax.set_xlim([np.min(klist), np.max(klist)])
     ax.set_ylim(ene_range)
+    ax.set_ylabel(r'$E$ (eV)')
     ax.set_xticks(tic_locs, klabels)
     ax.vlines(tic_locs, color='#000000', ymin=np.min(ene_range),
             ymax=np.max(ene_range), linewidth=0.5)

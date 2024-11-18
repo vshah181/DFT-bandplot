@@ -72,7 +72,7 @@ def plot_graph(kdists, bands, xtics, colour, yrange, efermi, fig_dims):
     fig = plt.figure(figsize=fig_dims)
     ax = fig.add_subplot(1, 1, 1)
     ax.tick_params(direction='in')
-    ax.set_ylabel(r'$E$ (meV)')
+    ax.set_ylabel(r'$E$ (eV)')
     ax.set_xticks(tic_locs, tic_labels)
     ax.set_xlim(np.min(kdists), np.max(kdists))
     ax.set_ylim(np.min(yrange), np.max(yrange))
