@@ -76,15 +76,17 @@ def plot_graph(kdists, bands, xtics, colour, yrange, efermi, fig_dims):
     ax.set_xticks(tic_locs, tic_labels)
     ax.set_xlim(np.min(kdists), np.max(kdists))
     ax.set_ylim(np.min(yrange), np.max(yrange))
-    ax.vlines(tic_locs, color='#000000', linewidth=0.5)
-    ax.hlines(efermi, linestyle='dashed', color='#000000', linewidth=0.5)
+    ax.vlines(tic_locs, color='#000000', ymin=np.min(yrange),
+            ymax=np.max(yrange), linewidth=0.5)
+    ax.hlines(efermi, linestyle='dashed', color='#000000', xmin=np.min(kdists),
+            xmax=np.max(kdists), linewidth=0.5)
     for band in bands:
         ax.plot(kdists, band, color=colour, linewidth=1.0)
     plt.tight_layout()
     plt.savefig('EIGENVAL.pdf')
 
 
-git@github.com:vshah181/DFT-bandplot.gitdef main():
+def main():
     kpoints, nkp, n_h_sym, kp_per_path = read_outcar()
     efermi, yrange, colour, fig_dims, klabels = read_master_input()
     kdists = generate_kdists(kpoints, nkp)

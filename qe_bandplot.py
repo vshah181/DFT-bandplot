@@ -10,24 +10,24 @@ plt.rcParams["mathtext.bf"] = "Arial:bold"
 plt.rcParams['svg.fonttype'] = 'none'
 
 def read_input():
-        for line in sys.stdin:
-            split_line = line.split()
-            if split_line[0] == 'fermi_level':
-                fermi_level = float(split_line[1])
-            elif split_line[0] == 'yrange':
-                ene_range = (float(split_line[1]), float(split_line[2]))
-            elif split_line[0] == 'seedname':
-                seedname = split_line[1]
-            elif split_line[0] == 'figsize':
-                fig_dimensions = (float(split_line[1]), float(split_line[2]))
-            elif split_line[0] == 'colour':
-                colour=split_line[1]
-            elif split_line[0] == 'filband':
-                filband=split_line[1]
-            elif split_line[0] == 'ppfile':
-                ppfile=split_line[1]
-            elif split_line[0] == 'klabels':
-                klabels = split_line[1:]
+    for line in sys.stdin:
+        split_line = line.split()
+        if split_line[0] == 'fermi_level':
+            fermi_level = float(split_line[1])
+        elif split_line[0] == 'yrange':
+            ene_range = (float(split_line[1]), float(split_line[2]))
+        elif split_line[0] == 'seedname':
+            seedname = split_line[1]
+        elif split_line[0] == 'figsize':
+            fig_dimensions = (float(split_line[1]), float(split_line[2]))
+        elif split_line[0] == 'colour':
+            colour=split_line[1]
+        elif split_line[0] == 'filband':
+            filband=split_line[1]
+        elif split_line[0] == 'ppfile':
+            ppfile=split_line[1]
+        elif split_line[0] == 'klabels':
+            klabels = split_line[1:]
     return fermi_level, ene_range, seedname, fig_dimensions, colour, filband,\
             ppfile, klabels
 
@@ -59,8 +59,10 @@ def plot_bands(tic_locs, klabels, e_fermi, klist, bands, size, colour,\
     ax.set_xlim([np.min(klist), np.max(klist)])
     ax.set_ylim(ene_range)
     ax.set_xticks(tic_locs, klabels)
-    ax.vlines(tic_locs, color='#000000', linewidth=0.5)
-    ax.hlines(e_fermi, color='#000000', linewidth=0.5, linestyle='dashed')
+    ax.vlines(tic_locs, color='#000000', ymin=np.min(ene_range),
+            ymax=np.max(ene_range), linewidth=0.5)
+    ax.hlines(e_fermi, color='#000000', xmin=np.min(klist), xmax=np.max(klist),
+            linewidth=0.5, linestyle='dashed')
     plt.tight_layout()
     plt.savefig(figure_name)
 
