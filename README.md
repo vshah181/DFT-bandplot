@@ -5,7 +5,7 @@ We will implement others as we go (if they are needed).
 
 
 ## QuantumESPRESSO
-We assume that pw.x and bands.x have been successfully run and that the gnuplot file has also been generated as a post-processing step.
+We assume that ```pw.x``` and ```bands.x``` have been successfully run and that the gnuplot file has also been generated as a post-processing step.
 Here is a sample input file:
 #### INPUT.qebp
     seedname CoSi
