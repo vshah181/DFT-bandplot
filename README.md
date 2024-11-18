@@ -17,7 +17,7 @@ Here is a sample input file:
     filband  CoSi_band.dat.gnu
     ppfile   pp.band.CoSi.out
 The filename does not matter. I have called it ```INPUT.qebp``` just as an example. The porgramme is invoked by typing:
-```python vasp_bandplot.py < INPUT.qebp```.
+```python qe_bandplot.py < INPUT.qebp```.
 
 ## Dependency list
 - Python $\geq$ 3.7.2
