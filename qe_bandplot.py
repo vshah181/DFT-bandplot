@@ -12,7 +12,7 @@ plt.rcParams['svg.fonttype'] = 'none'
 def read_input():
         for line in sys.stdin:
             split_line = line.split()
-            if split_line[0] == 'e_fermi':
+            if split_line[0] == 'fermi_level':
                 fermi_level = float(split_line[1])
             elif split_line[0] == 'yrange':
                 ene_range = (float(split_line[1]), float(split_line[2]))
@@ -51,7 +51,7 @@ def read_energies(filband):
 
 def plot_bands(tic_locs, klabels, e_fermi, klist, bands, size, colour,\
         ene_range, seedname):
-    figure_name = seedname+"_band.pdf"
+    figure_name = seedname+"_EIGENVAL.pdf"
     fig = plt.figure(figsize=size)
     ax = fig.add_subplot(1, 1, 1)
     for iband in range(len(bands)):
@@ -59,9 +59,8 @@ def plot_bands(tic_locs, klabels, e_fermi, klist, bands, size, colour,\
     ax.set_xlim([np.min(klist), np.max(klist)])
     ax.set_ylim(ene_range)
     ax.set_xticks(tic_locs, klabels)
-    for hsm in tic_locs:
-        ax.axvline(hsm, color='#000000', linewidth=0.5)
-    ax.axhline(e_fermi, color='#000000', linewidth=0.5, linestyle='dashed')
+    ax.vlines(tic_locs, color='#000000', linewidth=0.5)
+    ax.hlines(e_fermi, color='#000000', linewidth=0.5, linestyle='dashed')
     plt.tight_layout()
     plt.savefig(figure_name)
 

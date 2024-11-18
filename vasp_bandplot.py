@@ -38,7 +38,6 @@ def read_outcar():
     return kpoints, nkp, n_h_sym, kp_per_path
 
 def read_master_input():
-    #with open('INPUT.vbp', 'r', encoding='utf-8') as f:
     for line in sys.stdin:
         split_line = line.split()
         if split_line[0] == 'fermi_level':
@@ -75,19 +74,17 @@ def plot_graph(kdists, bands, xtics, colour, yrange, efermi, fig_dims):
     ax.tick_params(direction='in')
     ax.set_ylabel(r'$E$ (meV)')
     ax.set_xticks(tic_locs, tic_labels)
-    ax.vlines(tic_locs, ymin=np.min(yrange), ymax=np.max(yrange),
-        color='#000000')
-    ax.hlines(efermi, xmin=np.min(kdists), xmax=np.max(kdists),
-        linestyle='dotted', color='#000000')
     ax.set_xlim(np.min(kdists), np.max(kdists))
     ax.set_ylim(np.min(yrange), np.max(yrange))
+    ax.vlines(tic_locs, color='#000000', linewidth=0.5)
+    ax.hlines(efermi, linestyle='dashed', color='#000000', linewidth=0.5)
     for band in bands:
-        ax.plot(kdists, band, color=colour)
+        ax.plot(kdists, band, color=colour, linewidth=1.0)
     plt.tight_layout()
     plt.savefig('EIGENVAL.pdf')
 
 
-def main():
+git@github.com:vshah181/DFT-bandplot.gitdef main():
     kpoints, nkp, n_h_sym, kp_per_path = read_outcar()
     efermi, yrange, colour, fig_dims, klabels = read_master_input()
     kdists = generate_kdists(kpoints, nkp)
