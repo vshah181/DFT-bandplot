@@ -32,6 +32,9 @@ The filename does not matter. I have called it ```INPUT.vasp``` just as an examp
 ```python vasp_bandplot.py < INPUT.vasp```.
 The output file will be called EIGENVAL.pdf as VASP doesn't care about any seedname. 
 
+### Comparison mode
+Oftentimes we wish to compare the bandstrcutre calculated from DFT to the bandstructure obtained from Wannier90. We can do this by adding a line to the input file beginning with ```wann_band```. For example: ```wann_band wannier90_band.dat.``` If this is done then a file called COMPARE.pdf will be prepared. The DFT bandstructure will be plotted as a scatter plot and the band structure from Wannier90 will be plotted as a line. The colours will be chosen automatically so that they are complementary.
+
 ## Dependency list
 - Python $\geq$ 3.7.2
 - Numpy
