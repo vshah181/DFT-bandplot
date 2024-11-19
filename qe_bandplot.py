@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 
 plt.rcParams["font.family"] = "Arial"
 plt.rcParams["mathtext.fontset"] = "custom"
@@ -9,7 +10,16 @@ plt.rcParams["mathtext.it"] = "Arial:italic"
 plt.rcParams["mathtext.bf"] = "Arial:bold"
 plt.rcParams['svg.fonttype'] = 'none'
 
+
+def complementary_colour(colour_string):
+    r, g, b = mcolors.to_rgb(colour_string)
+    complementary_colour = [1.0 - r, 1.0 - g, 1.0 - b]
+    return mcolors.to_hex(complementary_colour)
+
+
 def read_input():
+    wann_file = ""
+    plot_wann = False
     for line in sys.stdin:
         split_line = line.split()
         if split_line[0] == 'fermi_level':
@@ -28,8 +38,11 @@ def read_input():
             ppfile=split_line[1]
         elif split_line[0] == 'klabels':
             klabels = split_line[1:]
+        elif split_line[0] == 'wann_band':
+            wann_file = split_line[1]
+            plot_wann = (len(wann_file) > 0) 
     return fermi_level, ene_range, seedname, fig_dimensions, colour, filband,\
-            ppfile, klabels
+            ppfile, klabels, wann_file, plot_wann
 
 
 def read_ppfile(ppfile):
@@ -47,6 +60,40 @@ def read_energies(filband):
     klist = np.unique(data[:, 0])
     bands = np.reshape(data[:, 1], (-1, len(klist)))
     return klist, bands
+
+
+def plot_compare(tic_locs, klabels, e_fermi, klist, bands, size, colour,\
+        ene_range, seedname, klist_wan, wann_bands):
+    scale = np.max(klist) / np.max(klist_wan)
+    figure_name = seedname+"_COMPARE.pdf"
+    fig = plt.figure(figsize=size)
+    ax = fig.add_subplot(1, 1, 1)
+    for iband in range(len(bands)):
+        if iband > 0:
+            ax.scatter(klist, bands[iband, :]-e_fermi,
+                    c=complementary_colour(colour), marker='o', s=8.0)
+        else:
+            ax.scatter(klist, bands[iband, :]-e_fermi,
+                    c=complementary_colour(colour), marker='o', s=8.0,
+                    label='QuantumESPRESSO')
+    for iband in range(len(wann_bands)):
+        if iband > 0:
+            ax.plot(klist_wan*scale, wann_bands[iband, :]-e_fermi,
+                    color=colour, linewidth=1.0)
+        else:
+            ax.plot(klist_wan*scale, wann_bands[iband, :]-e_fermi,
+                    color=colour, linewidth=1.0, label='Wannier90')
+    ax.set_xlim([np.min(klist), np.max(klist)])
+    ax.set_ylim(ene_range)
+    ax.set_ylabel(r'$E - E_F$ (eV)')
+    ax.set_xticks(tic_locs, klabels)
+    ax.vlines(tic_locs, color='#000000', ymin=np.min(ene_range),
+            ymax=np.max(ene_range), linewidth=0.5)
+    ax.hlines(0.00, color='#000000', xmin=np.min(klist), xmax=np.max(klist),
+            linewidth=0.5, linestyle='dashed')
+    ax.legend(loc='best')
+    plt.tight_layout()
+    plt.savefig(figure_name)
 
 
 def plot_bands(tic_locs, klabels, e_fermi, klist, bands, size, colour,\
@@ -69,11 +116,16 @@ def plot_bands(tic_locs, klabels, e_fermi, klist, bands, size, colour,\
 
 def main():
     fermi_level, ene_range, seedname, fig_dimensions, colour, filband, ppfile,\
-            klabels = read_input()
+            klabels, wann_file, plot_wann = read_input()
     tic_locs = read_ppfile(ppfile)
     klist, bands = read_energies(filband)
-    plot_bands(tic_locs, klabels, fermi_level, klist, bands, fig_dimensions,\
-            colour, ene_range, seedname)
+    if plot_wann:
+        klist_w, band_w = read_energies(wann_file)
+        plot_compare(tic_locs, klabels, fermi_level, klist, bands, \
+                fig_dimensions, colour, ene_range, seedname, klist_w, band_w)
+    else:
+        plot_bands(tic_locs, klabels, fermi_level, klist, bands, \
+                fig_dimensions, colour, ene_range, seedname)
 
 if __name__ == '__main__':
     main()
