@@ -46,6 +46,8 @@ def read_outcar():
 
 def read_master_input():
     wann_file = ""
+    wann_colour = "#ff6978"
+    colour = "#6463fa"
     plot_wann = False
     for line in sys.stdin:
         split_line = line.split()
@@ -62,8 +64,10 @@ def read_master_input():
         elif split_line[0] == 'wann_band':
             wann_file=split_line[1]
             plot_wann = True
+        elif split_line[0] == 'wann_colour':
+            wann_colour = split_line[1]
     return fermi_level, yrange, colour, fig_dimensions, klabels, plot_wann,\
-            wann_file
+            wann_file, wann_colour
 
 def read_wannier(filband):
     data = np.loadtxt(filband)
@@ -87,7 +91,7 @@ def read_eigenval(nkp):
 
 
 def plot_compare(kdists, bands, xtics, colour, yrange, efermi, fig_dims,\
-        klist_wan, band_wan):
+        klist_wan, band_wan, wann_colour):
     scale = np.max(kdists) / np.max(klist_wan)
     tic_locs, tic_labels = xtics
     fig = plt.figure(figsize=fig_dims)
@@ -104,17 +108,17 @@ def plot_compare(kdists, bands, xtics, colour, yrange, efermi, fig_dims,\
     for iband in range(len(bands)):
         if iband > 0:
             ax.scatter(kdists, bands[iband, :]-efermi,
-                    c=complementary_colour(colour), s=8.0, marker='o')
+                    c=colour, s=8.0, marker='o')
         else: 
             ax.scatter(kdists, bands[iband, :]-efermi, label='VASP',
-                    c=complementary_colour(colour), s=8.0, marker='o')
+                    c=colour, s=8.0, marker='o')
     for iband in range(len(band_wan)):
         if iband > 0:
-            ax.plot(klist_wan*scale, band_wan[iband, :]-efermi, color=colour,
-                    linewidth=1.0)
+            ax.plot(klist_wan*scale, band_wan[iband, :]-efermi,
+                    color=wann_colour, linewidth=1.0)
         else:
-            ax.plot(klist_wan*scale, band_wan[iband, :]-efermi, color=colour,
-                    linewidth=1.0, label='Wannier90')
+            ax.plot(klist_wan*scale, band_wan[iband, :]-efermi, 
+                    color=wann_colour, linewidth=1.0, label='Wannier90')
     ax.legend(loc='best')
     plt.tight_layout()
     plt.savefig('COMPARE.pdf')
@@ -142,7 +146,7 @@ def plot_graph(kdists, bands, xtics, colour, yrange, efermi, fig_dims):
 def main():
     kpoints, nkp, n_h_sym, kp_per_path = read_outcar()
     efermi, yrange, colour, fig_dims, klabels, plot_wann, \
-            wann_file = read_master_input()
+            wann_file, wann_colour = read_master_input()
     kdists = generate_kdists(kpoints, nkp)
     tic_locs = kdists[::kp_per_path]
     tic_locs = np.append(tic_locs, kdists[-1])
@@ -151,7 +155,7 @@ def main():
     if plot_wann:
         klist_wan, band_wan = read_wannier(wann_file)
         plot_compare(kdists, bands, xtics, colour, yrange, efermi, fig_dims, \
-                klist_wan, band_wan)
+                klist_wan, band_wan, wann_colour)
     else:
         plot_graph(kdists, bands, xtics, colour, yrange, efermi, fig_dims)
 
