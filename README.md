@@ -15,7 +15,7 @@ Here is a sample input file:
     yrange       -5 2 !Plot from 5 eV below Fermi energy to 2 eV above Fermi energy
     colour       tab:purple  !Or define a colour (eg #6463fa)
     filband      CoSi_band.dat.gnu
-    ppfile       pp.band.CoSi.out
+    ppfile       pp.band.CoSi.out  // This is the output file from running bands.x
 The filename does not matter. I have called it ```INPUT.qebp``` just as an example. The porgramme is invoked by typing:
 ```python qe_bandplot.py < INPUT.qebp```.
 The output file (in this example) will be called CoSi_EIGENVAL.pdf. 
